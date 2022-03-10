@@ -1,0 +1,118 @@
+--Para esta parte del reto, primero vamos a crear las tablas pertienentes.
+CREATE TABLE aerolinea(            
+    ID_Aerolinea INT PRIMARY KEY,
+    Nombre_aerolinea VARCHAR(40)  
+);
+
+CREATE TABLE aeropuerto(            
+    ID_Aeropuerto INT PRIMARY KEY,
+    Nombre_aeropuerto VARCHAR(40)  
+);
+
+CREATE TABLE movimiento(            
+    ID_Movimiento INT PRIMARY KEY,
+    Descripcion VARCHAR(40)  
+);
+
+/*Una vez que creamos las tablas principales, las rellenamos con los 
+valores deseados*/
+
+ -- LLenado de la tabla de aerolínea
+INSERT INTO aerolinea VALUES(1, 'Volaris');
+INSERT INTO aerolinea VALUES(2, 'Aeromar');
+INSERT INTO aerolinea VALUES(3, 'Interjet');
+INSERT INTO aerolinea VALUES(4, 'Aeromexico');
+
+ -- LLenado de la tabla de aeropuerto
+INSERT INTO aeropuerto VALUES(1, 'Benito Juarez');
+INSERT INTO aeropuerto VALUES(2, 'Guanajuato');
+INSERT INTO aeropuerto VALUES(3, 'La paz');
+INSERT INTO aeropuerto VALUES(4, 'Oaxaca');
+
+ -- LLenado de la tabla de movimientos
+INSERT INTO movimiento VALUES(1, 'Salida');
+INSERT INTO movimiento VALUES(2, 'Llegada');
+
+
+/*Ahora como ya hemos declarado las llaves primarias, podemos crear la 
+tabla de vuelos donde estas van a ser llaves secundarias*/
+
+CREATE TABLE vuelos (              
+     ID_Aerolinea INT,
+     ID_Aeropuerto INT,
+     ID_Movimiento INT,
+     Dia DATE, 
+     FOREIGN KEY(ID_Aerolinea) REFERENCES aerolinea(ID_Aerolinea) ON DELETE CASCADE,
+     FOREIGN KEY(ID_Aeropuerto) REFERENCES aeropuerto(ID_Aeropuerto) ON DELETE CASCADE,  
+     FOREIGN KEY(ID_Movimiento) REFERENCES movimiento(ID_Movimiento) ON DELETE CASCADE
+ );
+
+/*Y posteriormente procedemos a llenarla*/
+
+-- LLenado de la tabla de aeropuerto
+INSERT INTO vuelos VALUES(1, 1, 1,'2021-05-02');
+INSERT INTO vuelos VALUES(2, 1, 1,'2021-05-02');
+INSERT INTO vuelos VALUES(3, 2, 2,'2021-05-02');
+INSERT INTO vuelos VALUES(4, 3, 2,'2021-05-02');
+INSERT INTO vuelos VALUES(1, 3, 2,'2021-05-02');
+INSERT INTO vuelos VALUES(2, 1, 1,'2021-05-02');
+INSERT INTO vuelos VALUES(2, 3, 1,'2021-05-04');
+INSERT INTO vuelos VALUES(3, 4, 1,'2021-05-04');
+INSERT INTO vuelos VALUES(3, 4, 1,'2021-05-04'); 
+
+/*Ahora que ya tenemos nuestra base de datos, podemos hacer los queries
+que se deseen*/
+
+/*Nota: Se dejan los queries como notas para poderlos motrar en la
+línea de código*/
+
+/*Comenzamos con saber qué aeropuerto ha tenido mayor movimiento 
+durante el año*/
+
+/*SELECT ID_Aeropuerto, COUNT(*) AS magnitude 
+FROM vuelos 
+GROUP BY ID_Aeropuerto
+ORDER BY magnitude DESC*/
+
+/*Ahora accedemos a su nombre */
+
+/*SELECT  *
+FROM aeropuerto
+WHERE  ID_Aeropuerto = 1*/
+
+/*Por otra parte respondemos la pregunta de la aerolínea que ha 
+realizado más vuelos en lo que va del año*/
+
+/*SELECT ID_Aerolinea, COUNT(*) AS magnitude 
+FROM vuelos 
+GROUP BY ID_Aerolinea
+ORDER BY magnitude DESC*/
+
+/*Y moestramos su nombre*/
+
+/*SELECT  *
+FROM aerolinea
+WHERE  ID_Aerolinea = 2*/
+
+/*Como paso siguiente, se responde al día que ha tenido mayor número
+de vuelos*/
+
+/*SELECT Dia, COUNT(*) AS magnitude 
+FROM vuelos 
+GROUP BY Dia
+ORDER BY magnitude DESC*/
+
+/*Finalmente, se desea responder cuales son las aerolíneas que tienen 
+más de dos vuelos por día. Pero no hay alguna que tenga más de dos.
+De todas formas se calcula las que tienen 2 vuelos por día*/
+
+/*SELECT ID_Aerolinea, COUNT(*) AS magnitude 
+FROM vuelos 
+GROUP BY ID_Aerolinea, Dia
+ORDER BY magnitude DESC*/
+
+/*Y finalmente se muestra su nombre*/
+
+/*SELECT  *
+FROM aerolinea
+WHERE  ID_Aerolinea = 1 OR ID_Aerolinea = 2*/
